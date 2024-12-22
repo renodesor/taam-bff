@@ -1,0 +1,156 @@
+openapi: 3.0.0
+info:
+  title: Activity API
+  description: API for managing activities
+  version: 1.0.0
+servers:
+  - url: /taam-api
+paths:
+  /activities:
+    get:
+      summary: Get all Activities
+      operationId: getAllActivities
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Activity'
+        '500':
+          description: Internal server error
+    post:
+      summary: Save activity
+      operationId: addActivity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '201':
+          description: Activity created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+        '409':
+          description: Activity already exists
+        '500':
+          description: Internal server error
+    put:
+      summary: Put activity
+      operationId: putActivity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '200':
+          description: Activity updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+        '201':
+          description: Activity created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+        '500':
+          description: Internal server error
+    patch:
+      summary: Patch activity
+      operationId: patchActivity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Activity'
+      responses:
+        '200':
+          description: Activity updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+        '500':
+          description: Internal server error
+  /activities/{id}:
+    get:
+      summary: Get Activity By Id
+      operationId: getActivityById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Activity'
+        '404':
+          description: Activity not found
+        '500':
+          description: Internal server error
+    delete:
+      summary: Delete activity
+      operationId: deleteActivity
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: No content
+        '404':
+          description: Activity not found
+        '500':
+          description: Internal server error
+components:
+  schemas:
+    Activity:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          $ref: '#/components/schemas/Category'
+    Category:
+      type: object
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
